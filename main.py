@@ -23,7 +23,7 @@ VIDEO_PLAYLIST = [
 STREAM_KEY = "FB-1696468164019091-0-Ab6zGsOzLGn5MZwzyYOEPc08"
 
 # ৩. লাইভ শুরুর সময় (24-hour format)
-START_TIME = "16:55" 
+START_TIME = "17:45" 
 
 # ৪. টাইমজোন
 TIMEZONE = "Asia/Dhaka"
@@ -75,19 +75,16 @@ def stream_process():
         return
 
     rtmp_url = f"rtmps://live-api-s.facebook.com:443/rtmp/{STREAM_KEY}"
-    print(f"Starting Stream with: {video_url}")
+    print(f"Starting Stream with Cookies: {video_url}")
     
-    # --- নতুন ট্রিক: iOS ক্লায়েন্ট এবং User-Agent পরিবর্তন ---
-    # ইউটিউব মনে করবে এটি একটি আইফোন থেকে চালানো হচ্ছে
+    # --- নতুন কোড: কুকিজ ব্যবহার করা হচ্ছে ---
     command = (
-        f"yt-dlp --extractor-args \"youtube:player_client=ios\" "
-        f"--user-agent \"Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1\" "
-        f"-o - {video_url} | "
+        f"yt-dlp --cookies cookies.txt -o - {video_url} | "
         f"ffmpeg -re -i pipe:0 -t {DURATION_SECONDS} -c:v libx264 -preset veryfast -b:v 3000k "
         f"-maxrate 3000k -bufsize 6000k -pix_fmt yuv420p -g 60 "
         f"-c:a aac -b:a 128k -ar 44100 -f flv \"{rtmp_url}\""
     )
-    # -----------------------------------------------------
+    # ----------------------------------------
     
     subprocess.call(command, shell=True)
     print("Stream Finished.")
