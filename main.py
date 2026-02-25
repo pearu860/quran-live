@@ -20,7 +20,7 @@ VIDEO_PLAYLIST = [
 STREAM_KEY = "FB-1696468164019091-0-Ab6zGsOzLGn5MZwzyYOEPc08"
 
 # লাইভ শুরুর সময় (24-hour format)
-START_TIME = "14:30" 
+START_TIME = "18:17" 
 
 # আপনার টাইমজোন
 TIMEZONE = "Asia/Dhaka" 
